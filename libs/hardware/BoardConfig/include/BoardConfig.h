@@ -406,7 +406,7 @@
 #endif
 #ifndef FREEINK_CAP_IMU
 #define FREEINK_CAP_IMU \
-  (FREEINK_DEVICE_X3 || FREEINK_DEVICE_STICKY || FREEINK_DEVICE_X4CLASSIC || FREEINK_DEVICE_READPICO || FREEINK_DEVICE_WS397 || FREEINK_DEVICE_METALIO_EINK4 || FREEINK_DEVICE_PICCO)
+  (FREEINK_DEVICE_X3 || FREEINK_DEVICE_STICKY || FREEINK_DEVICE_X4CLASSIC || FREEINK_DEVICE_WAVESHARE_EPAPER_397 || FREEINK_DEVICE_READPICO || FREEINK_DEVICE_WS397 || FREEINK_DEVICE_METALIO_EINK4 || FREEINK_DEVICE_PICCO)
 #endif
 // LEDC PWM buzzer (tone beeper). The Buzzer lib drives the AudioConfig.buzzer
 // pin; on for boards that wire one (Sticky GPIO48, Murphy GPIO46, PaperS3
@@ -2042,7 +2042,7 @@ constexpr BoardProfile WAVESHARE_EPAPER_397 = {
     {16, 17, 15, 7, 8, 18, 4},
     NO_GAUGE,
     NO_MIC,
-    {41, 42, 400000, 0x51, 0, 0, 0, RtcType::Pcf85063, ImuType::None},
+    {41, 42, 400000, 0x51, 0, 0x6B, 0, RtcType::Pcf85063, ImuType::Qmi8658},
     1.0f,
     {}};
 
@@ -2085,6 +2085,8 @@ static_assert(MURPHY_M4.sdmmc.clk == 16 && MURPHY_M4.sdmmc.cmd == 15 &&
 static_assert(WAVESHARE_EPAPER_397.displayWidth / 8 * WAVESHARE_EPAPER_397.displayHeight == 48000,
               "Waveshare 3.97 must use one 48,000-byte framebuffer");
 static_assert(WAVESHARE_EPAPER_397.sdmmc.busWidth == 4, "Waveshare 3.97 SD must use 4-bit SDMMC");
+static_assert(WAVESHARE_EPAPER_397.sensors.imuAddr == 0x6B && WAVESHARE_EPAPER_397.sensors.imuType == ImuType::Qmi8658,
+              "Waveshare 3.97 QMI8658 must be the 0x6B I2C device");
 static_assert(WAVESHARE_EPAPER_397.input.confirm == 5 && WAVESHARE_EPAPER_397.input.power == PIN_UNASSIGNED,
               "Waveshare 3.97 GPIO5 must be confirm-only; power is reported by the AXP2101");
 static_assert(WAVESHARE_EPAPER_397.audio.output == AudioOutput::I2sEs8311Mclk16k &&
